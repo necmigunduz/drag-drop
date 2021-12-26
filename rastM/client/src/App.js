@@ -2,18 +2,29 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react'
 
-const itemsFromBack = [
+const backLogs = [
   { id: uuidv4(), content: '1st Task' },
   { id: uuidv4(), content: '2nd Task' }
 ]
 
+const toDos = [
+  { id: uuidv4(), content: '1st ToDo'}
+]
 const columnsFromBack = {
   [uuidv4()]: {
-    name: 'ToDo',
-    items: itemsFromBack
+    name: 'Backlogs',
+    items: backLogs
   },
   [uuidv4()]: {
-    name: 'In Progress',
+    name: 'ToDos',
+    items: toDos
+  },
+  [uuidv4()]: {
+    name: 'InProgress',
+    items: []
+  },
+  [uuidv4()]: {
+    name: 'Designed',
     items: []
   },
 }
@@ -61,9 +72,9 @@ function App() {
       <DragDropContext onDragEnd={result => onDragEnd(result, columns, setColumns)}>
         {Object.entries(columns).map(([id, column]) =>{
           return (
-            <div style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
+            <div key={id} style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
               <h2>{column.name}</h2>
-              <div style={{margin: 8}}>
+              <div key={id} style={{margin: 8}}>
                 <Droppable droppableId={id} key={id}>
                   {(provided, snapshot) => {
                     return (
